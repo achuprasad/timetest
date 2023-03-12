@@ -21,14 +21,12 @@ class Register(View):
         context = {}
         form = PersonCreationForm(request.POST)
         if form.is_valid():
-            print("valid")
             user = form.save(commit=False)
             password = form.cleaned_data.get('password1')
             user.password = make_password(password)
             user.save()
             return redirect('login')
         else:
-            print("invalid")
             context['form'] = form
             print(form.errors)
         return render(request, 'register.html', context)
@@ -52,16 +50,12 @@ class Login(View):
                 login(request, user)
                 # Redirect based on user role
                 if user.role == 'student':
-                    print("student")
                     return redirect('/student')
                 elif user.role == 'staff':
-                    print("staff")
                     return redirect('/staff')
                 elif user.role == 'admin':
-                    print("admin")
                     return redirect('/admin')
                 elif user.role == 'editor':
-                    print("editor")
                     return redirect('/editor')
             else:
                 context['form'] = form
@@ -77,22 +71,22 @@ class Logout(View):
         return redirect('login')
 
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class StudentPageView(View):
     def get(self, request):
         return render(request, 'student_page.html')
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class StaffPageView(View):
     def get(self, request):
         return render(request, 'staff_page.html')
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class AdminPageView(View):
     def get(self, request):
         return render(request, 'admin_page.html')
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class EditorPageView(View):
     def get(self, request):
         return render(request, 'editor_page.html')

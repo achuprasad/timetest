@@ -2,23 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin: auto;
+            max-width: 500px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
+    </style>
 </head>
 <body>
-  <h2>Register</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-     {% if form.errors %}
-      {% for field in form %}
-           {% for error in field.errors %}
-                {{field.label}}: {{ error|escape }}
-           {% endfor %}
-      {% endfor %}
-{% endif %}<br>
-    <button type="submit" class="btn btn-primary">Register</button>
-  </form>
-
-
+    <h2>Registration</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="error-message">{{field.label}}: {{ error|escape }}</div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
 </body>
 </html>
