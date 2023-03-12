@@ -43,6 +43,13 @@ class PersonCreationForm(forms.ModelForm):
             'password2': {'required': 'Please confirm your password'},
         }
 
+    def clean_mobile(self):
+        mobile = self.cleaned_data.get('mobile')
+
+        if not mobile.isnumeric():
+            raise forms.ValidationError('please enter a valid mobile number')
+
+        return mobile
     def clean_email(self):
         email = self.cleaned_data.get('email')
 
